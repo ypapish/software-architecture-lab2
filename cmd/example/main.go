@@ -3,12 +3,14 @@ package main
 import (
 	"flag"
 	"fmt"
+
 	lab2 "github.com/roman-mazur/architecture-lab-2"
 )
 
 var (
-	inputExpression = flag.String("e", "", "Expression to compute")
-	// TODO: Add other flags support for input and output configuration.
+	inputExpression = flag.String("e", "", "Postfix expression to compute")
+	inputFile       = flag.String("f", "", "File containing the postfix expression to compute")
+	outputFile      = flag.String("o", "", "File to write the Lisp-like result to")
 )
 
 func main() {

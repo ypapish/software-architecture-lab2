@@ -3,25 +3,64 @@ package main
 import (
 	"flag"
 	"fmt"
+	"io"
+	"os"
+	"strings"
+
 	lab2 "github.com/roman-mazur/architecture-lab-2"
 )
 
 var (
-	inputExpression = flag.String("e", "", "Expression to compute")
-	// TODO: Add other flags support for input and output configuration.
+	inputExpression = flag.String("e", "", "Postfix expression to compute")
+	inputFile       = flag.String("f", "", "File containing the postfix expression to compute")
+	outputFile      = flag.String("o", "", "File to write the Lisp-like result to")
 )
 
 func main() {
 	flag.Parse()
 
-	// TODO: Change this to accept input from the command line arguments as described in the task and
-	//       output the results using the ComputeHandler instance.
-	//       handler := &lab2.ComputeHandler{
-	//           Input: {construct io.Reader according the command line parameters},
-	//           Output: {construct io.Writer according the command line parameters},
-	//       }
-	//       err := handler.Compute()
+	if *inputExpression != "" && *inputFile != "" {
+		fmt.Fprintln(os.Stderr, "Error: Both -e and -f flags cannot be used simultaneously")
+		os.Exit(1)
+	}
 
-	res, _ := lab2.PrefixToPostfix("+ 2 2")
-	fmt.Println(res)
+	var input io.Reader
+	var output io.Writer
+
+	if *inputExpression != "" {
+		input = strings.NewReader(*inputExpression)
+	} else if *inputFile != "" {
+		file, err := os.Open(*inputFile)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error opening input file: %v\n", err)
+			os.Exit(1)
+		}
+		defer file.Close()
+		input = file
+	} else {
+		fmt.Fprintln(os.Stderr, "Error: No input provided. Use -e or -f flag.")
+		os.Exit(1)
+	}
+
+	if *outputFile != "" {
+		file, err := os.Create(*outputFile)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error creating output file: %v\n", err)
+			os.Exit(1)
+		}
+		defer file.Close()
+		output = file
+	} else {
+		output = os.Stdout
+	}
+
+	handler := &lab2.ComputeHandler{
+		Input:  input,
+		Output: output,
+	}
+
+	if err := handler.Compute(); err != nil {
+		fmt.Fprintf(os.Stderr, "Error computing expression: %v\n", err)
+		os.Exit(1)
+	}
 }

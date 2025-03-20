@@ -1,6 +1,7 @@
 package lab2
 
 import (
+	"fmt"
 	"testing"
 )
 
@@ -23,7 +24,7 @@ func TestPostfixToLisp(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		lispExpr, err := postfixToLisp(test.input)
+		lispExpr, err := PostfixToLisp(test.input)
 
 		if test.hasError {
 			if err == nil {
@@ -39,4 +40,12 @@ func TestPostfixToLisp(t *testing.T) {
 			}
 		}
 	}
+}
+
+func ExamplePostfixToLisp() {
+	res, _ := PostfixToLisp("2 2 +")
+	fmt.Println(res)
+
+	// Output:
+	// (+ 2 2)
 }

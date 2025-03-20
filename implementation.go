@@ -15,7 +15,7 @@ func isNumber(s string) bool {
 	return err == nil        
 }
 
-func postfixToLisp(expression string) (string, error) {
+func PostfixToLisp(expression string) (string, error) {
 	var stack []string
 	elements := strings.Fields(expression)
 

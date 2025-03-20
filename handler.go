@@ -1,8 +1,12 @@
 package lab2
 
 import (
+	"errors"
 	"io"
+	"strings"
 )
+
+var ErrInvalidExpression = errors.New("invalid expression")
 
 type ComputeHandler struct {
 	Input  io.Reader
@@ -10,6 +14,22 @@ type ComputeHandler struct {
 }
 
 func (ch *ComputeHandler) Compute() error {
-	// TODO: Implement.
-	return nil
+	data, err := io.ReadAll(ch.Input)
+	if err != nil {
+		return err
+	}
+
+	expression := strings.TrimSpace(string(data))
+
+	if expression == "" {
+		return ErrInvalidExpression
+	}
+
+	result, err := postfixToLisp(expression)
+	if err != nil {
+		return err
+	}
+
+	_, err = ch.Output.Write([]byte(result + "\n"))
+	return err
 }

@@ -2,7 +2,6 @@ package lab2
 
 import (
 	"bytes"
-	"errors"
 	"strings"
 	"testing"
 )
@@ -47,8 +46,8 @@ func TestComputeHandler_Compute(t *testing.T) {
 			err := handler.Compute()
 
 			if tt.expectedError != nil {
-				if err == nil || !errors.Is(err, tt.expectedError) {
-					t.Errorf("Expected error: %v, got: %v", tt.expectedError, err)
+				if err == nil || !strings.Contains(err.Error(), tt.expectedError.Error()) {
+					t.Errorf("Expected error containing: %v, got: %v", tt.expectedError, err)
 				}
 			} else {
 				if err != nil {

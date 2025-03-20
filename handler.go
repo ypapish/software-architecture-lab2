@@ -25,7 +25,7 @@ func (ch *ComputeHandler) Compute() error {
 		return ErrInvalidExpression
 	}
 
-	result, err := postfixToLisp(expression)
+	result, err := PostfixToLisp(expression)
 	if err != nil {
 		return err
 	}

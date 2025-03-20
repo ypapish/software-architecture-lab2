@@ -11,8 +11,8 @@ func isOperator(element string) bool {
 }
 
 func isNumber(s string) bool {
-	_, err := strconv.Atoi(s) 
-	return err == nil        
+	_, err := strconv.ParseFloat(s, 64)
+	return err == nil
 }
 
 func PostfixToLisp(expression string) (string, error) {

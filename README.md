@@ -9,3 +9,4 @@
 
 - [Неуспішна збірка](https://github.com/ypapish/software-architecture-lab2/actions/runs/13979272219)
 - [Успішна збірка](https://github.com/ypapish/software-architecture-lab2/actions/runs/13981632919)
+- [Pull Request із запущеною збіркою](https://github.com/ypapish/software-architecture-lab2/pull/3)
